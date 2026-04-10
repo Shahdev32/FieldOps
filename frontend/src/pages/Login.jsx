@@ -13,10 +13,17 @@ export default function Login() {
 
     try {
       const { data } = await API.post("/auth/login", form);
-      login(data);
-      navigate("/");
+
+      console.log("LOGIN RESPONSE:", data);
+
+      login(data); // {token, role}
+
+      if (data.role === "admin") navigate("/admin");
+      else if (data.role === "technician") navigate("/tech");
+      else navigate("/client");
+
     } catch (err) {
-      console.log("Login error:", err);
+      console.log("Login error:", err.response?.data || err.message);
     }
   };
 
@@ -25,13 +32,13 @@ export default function Login() {
       <h2>Login</h2>
 
       <input
-        placeholder="Email"
+        placeholder="email"
         onChange={(e) => setForm({ ...form, email: e.target.value })}
       />
 
       <input
         type="password"
-        placeholder="Password"
+        placeholder="password"
         onChange={(e) => setForm({ ...form, password: e.target.value })}
       />
 

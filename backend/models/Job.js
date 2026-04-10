@@ -1,35 +1,27 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-
-    status: {
-      type: String,
-      enum: ['pending', 'completed'],
-      default: 'pending',
-    },
+    title: String,
+    description: String,
 
     technician: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      default: null,
+      ref: "User",
     },
 
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
+      ref: "User",
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "in-progress", "completed"],
+      default: "pending",
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Job', jobSchema);
+export default mongoose.model("Job", jobSchema);

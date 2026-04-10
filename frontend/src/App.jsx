@@ -1,52 +1,54 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import CreateJob from "./pages/CreateJob";
+//import Register from "./pages/Register";
+import AdminDashboard from "./pages/AdminDashboard";
+import TechnicianDashboard from "./pages/TechnicianDashboard";
+import ClientDashboard from "./pages/ClientDashboard";
+
 import PrivateRoute from "./components/PrivateRoute";
 import Navbar from "./components/Navbar";
 
-function App() {
+export default function App() {
   return (
-
-//     console.log({
-//   Login,
-//   Register,
-//   Dashboard,
-//   CreateJob,
-//   PrivateRoute,
-//   Navbar
-    
-// })
-  
     <BrowserRouter>
+
       <Navbar />
 
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* ✅ DEFAULT ROUTE */}
+        <Route path="/" element={<Login />} />
+
+        {/* optional (you can remove register completely if you want) */}
+        {/* <Route path="/register" element={<Register />} /> */}
 
         <Route
-          path="/"
+          path="/admin"
           element={
-            <PrivateRoute>
-              <Dashboard />
+            <PrivateRoute role="admin">
+              <AdminDashboard />
             </PrivateRoute>
           }
         />
 
         <Route
-          path="/create-job"
+          path="/tech"
           element={
-            <PrivateRoute>
-              <CreateJob />
+            <PrivateRoute role="technician">
+              <TechnicianDashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/client"
+          element={
+            <PrivateRoute role="client">
+              <ClientDashboard />
             </PrivateRoute>
           }
         />
       </Routes>
     </BrowserRouter>
   );
-
 }
-export default App;

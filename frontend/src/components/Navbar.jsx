@@ -1,25 +1,29 @@
-import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-  const { user = {}, logout } = useContext(AuthContext);
+export default function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
-    <div style={{ display: "flex", gap: 10 }}>
-      <Link to="/">Home</Link>
+    <div style={{ padding: 10, background: "#222", color: "#fff" }}>
+      <span>Job System</span>
 
-      {!user?.token && <Link to="/login">Login</Link>}
-      {!user?.token && <Link to="/register">Register</Link>}
-
-      {user?.token && (
+      {user && (
         <>
-          <span>{user.role}</span>
-          <button onClick={logout}>Logout</button>
+          <span style={{ marginLeft: 20 }}>Role: {user.role}</span>
+          <button
+            onClick={() => {
+              logout();
+              navigate("/login");
+            }}
+            style={{ marginLeft: 20 }}
+          >
+            Logout
+          </button>
         </>
       )}
     </div>
   );
-};
-
-export default Navbar;
+}
